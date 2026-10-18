@@ -2,165 +2,209 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Controle de Contas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Controle de Contas 2026</title>
 <style>
-  :root { --bg: #f4f6f8; --card: #ffffff; --text: #333333; --primary: #0e6b5c; --danger: #b23c2b; --success: #12795f; --border: #dcdcdc; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; }
-  header { background: var(--primary); color: #fff; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 10px; }
-  h1 { margin: 0; font-size: 18px; }
-  nav { display: flex; gap: 5px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 5px; }
-  nav button { flex: 1; padding: 10px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; font-weight: bold; cursor: pointer; white-space: nowrap; }
-  nav button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
-  .row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-  input, select { width: 100%; padding: 10px; margin: 5px 0 12px 0; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-  button.btn-main { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 5px; }
-  th, td { padding: 8px 6px; border-bottom: 1px solid var(--border); text-align: left; }
-  th { color: #666; font-size: 12px; }
-  .text-right { text-align: right; }
-  .badge { padding: 3px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-  .badge.pago { background: #e1f5fe; color: #0277bd; }
-  .badge.pendente { background: #ffebee; color: var(--danger); }
-  .actions { display: flex; gap: 5px; justify-content: flex-end; }
-  .actions button { padding: 4px 8px; font-size: 11px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border); }
-</style>
-</head>
+*{box-sizing:border-box}
+:root{--bg:#f3f2ec;--card:#fff;--ink:#1c2a26;--mut:#5d6b66;--line:#dedcd1;--ac:#0e6b5c;--acs:#e6f1ee;--pos:#12795f;--neg:#b23c2b;--warn:#c58a1b}
+@media(prefers-color-scheme:dark){:root{--bg:#111917;--card:#1a2421;--ink:#e7eeeb;--mut:#9aaca6;--line:#2b3834;--ac:#4cc3ab;--acs:#1c3430;--pos:#4cc3ab;--neg:#f08a76;--warn:#e6b85c}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top) 0 calc(70px + env(safe-area-inset-bottom))}
+h1{font-size:18px;margin:0}h1 small{color:var(--mut);font-weight:400}h2{font-size:15px;margin:0 0 10px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+
+/* Menu inferior otimizado para celular */
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 4% calc(8px + env(safe-area-inset-bottom));z-index:10;box-shadow:0 -2px 10px rgba(0,0,0,0.05)}
+nav a{display:flex;flex-direction:column;align-items:center;font-size:11px;padding:6px 8px;border-radius:8px;color:var(--mut);text-decoration:none;gap:2px;flex:1;text-align:center}
+nav a.on{color:var(--ac);font-weight:600;background:var(--acs)}
+
+button,select,input{font:inherit;color:inherit}
+button{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;min-height:40px}button:hover{border-color:var(--ac)}
+button.pri{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
+input,select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px;width:100%}
+main{padding:14px 16px;max-width:1280px;margin:auto}
+
+/* Barra de Período com rolagem horizontal */
+.per{max-width:1280px;margin:12px auto 0;padding:0 16px;display:flex;gap:8px;align-items:center;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.per::-webkit-scrollbar{display:none}
+.per label{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:13px}
+.per input{width:auto;min-height:36px;padding:4px 8px}
+.per button{min-height:36px;white-space:nowrap}
+.per button.on{background:var(--acs);border-color:var(--ac);color:var(--ac)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px;min-width:0}
+.grid2{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px}
+@media(min-width:768px){.grid2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}}
+
+.k3,.k4{display:grid;gap:10px;margin-bottom:14px}
+.k3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.k4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:600px){.k4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}}
+
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column}
+.kpi span{color:var(--mut);font-size:12px}.kpi b{font-size:18px;font-variant-numeric:tabular-nums}.kpi small{color:var(--mut)}
+.kpi.big b{font-size:22px}.pos b{color:var(--pos)}.neg b{color:var(--neg)}.wn b{color:var(--warn)}
+.grp>h2{margin:0 0 6px;color:var(--mut)}
+.bar{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+@media(min-width:600px){.bar{flex-direction:row;flex-wrap:wrap;align-items:center}}
+.sp{flex:1}.inl{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:13px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mut);font-weight:600;font-size:12px}.n{text-align:right;font-variant-numeric:tabular-nums}
+tfoot td{font-weight:700}tr.atr td:first-child{box-shadow:inset 3px 0 var(--neg)}
+td.ac{text-align:right}td.ac button{padding:4px 8px;min-height:32px;font-size:12px;margin-left:4px}
+.obs{cursor:help;color:var(--mut)}
+.tag{padding:2px 8px;border-radius:99px;font-size:11px;border:1px solid currentColor}
+.tag.ok{color:var(--pos)}.tag.bad{color:var(--neg)}.tag.wn{color:var(--warn)}
+svg{width:100%;height:auto;display:block}.gl{stroke:var(--line)}.ax{fill:var(--mut);font-size:10px}.hit{fill:transparent}.sb{fill:var(--acs)}.mg{cursor:pointer}
+.leg{color:var(--mut);font-size:12px;margin:6px 0 0}.leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 4px 0 10px}
+.fv{display:grid;grid-template-columns:100px 1fr 80px;gap:8px;align-items:center;width:100%;text-align:left;border:0;border-radius:6px;padding:6px;background:none}
+.fv i{height:8px;background:var(--acs);border-radius:4px;overflow:hidden}.fv u{display:block;height:100%;background:var(--neg)}.fv.r u{background:var(--pos)}
+.fv b{text-align:right;font-variant-numeric:tabular-nums;font-weight:500;font-size:13px}.fv.on{background:var(--acs)}.fv span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.seg{display:flex;gap:6px;margin-bottom:10px;width:100%}.seg button,.seg label{flex:1;text-align:center;justify-content:center}
+.seg button.on{background:var(--acs);border-color:var(--ac);color:var(--ac)}
+.donut{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}.donut svg{width:150px}.donut .dt{font-size:9px;fill:var(--ink);font-weight:700}.lg{display:flex;flex-direction:column;gap:6px}
+.vazio,.mut{color:var(--mut);font-size:13px}.bad{color:var(--neg)}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);width:100%;max-width:600px;padding:16px;margin:auto;max-height:90vh;overflow-y:auto}dialog::backdrop{background:#0008}
+.fg{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:600px){.fg{grid-template-columns:repeat(2,1fr)}}
+.fg label,dialog>form>label{display:flex;flex-direction:column;gap:4px;color:var(--mut);font-size:13px}
+.seg label{display:flex;gap:5px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--card)}
+.sg{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}.sg span{flex:1}.sg input.sv{width:100px;text-align:right}
+textarea{width:100%;min-height:100px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:12px monospace}
+#toast{position:fixed;left:50%;bottom:calc(75px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;font-size:13px;max-width:90%;text-align:center}#toast.on{opacity:1;pointer-events:auto}#toast button{margin-left:8px;min-height:28px;padding:2px 8px}
+#tip{position:fixed;z-index:25;background:var(--ink);color:var(--bg);padding:5px 9px;border-radius:6px;font-size:12px;pointer-events:none;display:none;max-width:320px}
+.tb{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px}.fg2{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:8px}
+@media(min-width:500px){.fg2{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}}
+.tf{display:flex;flex-direction:column;gap:3px;color:var(--mut);font-size:13px}.tb p{margin:6px 0 0;font-size:13px}
+</style></head>
 <body>
-
-<header>
-  <h1>Controle de Contas 2026</h1>
+<header class="top">
+  <h1>Controle de Contas <small>2026</small></h1>
+  <button class="pri" data-a="novo">+ Lançar</button>
 </header>
-
-<nav>
-  <button onclick="mudarTab('painel')" id="btn-painel" class="active">Painel</button>
-  <button onclick="mudarTab('pagar')" id="btn-pagar">A Pagar</button>
-  <button onclick="mudarTab('receber')" id="btn-receber">A Receber</button>
-  <button onclick="mudarTab('novo')" id="btn-novo">+ Lançar</button>
+<div class="per" id="per"></div>
+<main id="app"></main>
+<nav id="nav">
+  <a href="#/painel">📊 Painel</a>
+  <a href="#/pagar">📤 Pagar</a>
+  <a href="#/receber">📥 Receber</a>
+  <a href="#/dados">⚙️ Dados</a>
 </nav>
-
-<div id="conteudo"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="tip"></div>
+<dialog id="dlg"></dialog>
 
 <script>
-  // Base de dados inicial simplificada
-  let dados = JSON.parse(localStorage.getItem('contas_simples')) || [
-    { id: 1, tipo: 'p', venc: '2026-10-20', pessoa: 'Mercado Livre', desc: 'Cartão de Crédito', val: 116530, status: 'pendente' },
-    { id: 2, tipo: 'p', venc: '2026-10-22', pessoa: 'COPASA', desc: 'Conta de Água', val: 6790, status: 'pendente' },
-    { id: 3, tipo: 'r', venc: '2026-10-20', pessoa: 'Adriano', desc: 'Empréstimo', val: 3500, status: 'pendente' }
-  ];
+'use strict';
+const SEED=[["p","2026-01-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-01-05",5000],["p","2026-01-10","Natália","Pensão Gabriel",100000,"Fixa","","2026-01-10",100000],["p","2026-01-17","Dominguito","Magic - Lançamento de Lorryn Eclipsed",66000,"Variável","Fui jogar o Pre-release com o Luis Fernando","2026-01-17",66000],["p","2026-01-17","Posto de Gasolina","Combustível",6500,"Variável","Peguei Carro do Adriano emprestado para ir jogar em Varginha.","2026-01-17",6500],["p","2026-01-06","CEMIG","Conta de Energia",16000,"Variável","","2026-01-18",16000],["p","2026-01-18","Vendedor de Caminhão","2 Cameras Wifi",56000,"Variável","Paguei para o Adriano. Vou ficar com a camera dele. Preciso pegar ela quando ele desocupar.","2026-01-18",56000],["p","2026-01-31","COPASA","Conta de Água",8408,"Variável","","2026-01-18",8408],["p","2026-02-06","CEMIG","Conta de Energia",14785,"Variável","","2026-01-18",14785],["p","2026-02-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-02-05",5000],["p","2026-02-10","Natália","Pensão Gabriel",100000,"Fixa","","2026-02-10",100000],["p","2026-03-05","Maikon","Concerto da Moto",60000,"Variável","","2026-03-05",60000],["p","2026-03-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-03-05",5000],["p","2026-03-06","Guigo","Açougue",19500,"Variável","","2026-03-06",19500],["p","2026-03-06","Selnice","Supermercado",116000,"Variável","","2026-03-06",116000],["p","2026-03-10","Natália","Pensão Gabriel",100000,"Fixa","","2026-03-10",100000],["p","2026-03-10","Anderson","Moto",150000,"Fixa","","2026-03-10",150000],["p","2026-04-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-04-05",5000],["p","2026-02-28","COPASA","Conta de Água",6056,"Variável","","2026-04-06",6056],["p","2026-03-06","CEMIG","Conta de Energia",12129,"Variável","","2026-04-06",12129],["p","2026-04-06","CEMIG","Conta de Energia",17445,"Variável","","2026-04-06",17445],["p","2026-04-10","Natália","Prime e Impressora + Emprestimo",17600,"Variável","","2026-04-10",17600],["p","2026-04-10","Anderson","Moto",100000,"Fixa","","2026-04-10",100000],["p","2026-04-10","Natália","Pensão Gabriel",100000,"Fixa","","2026-04-10",100000],["p","2026-03-31","Mercado Livre","Emprestimo",20208,"Variável","","2026-04-13",20208],["p","2026-03-31","Guigo","Açougue",29844,"Variável","","2026-04-13",29844],["p","2026-03-31","Selnice","Supermercado",150600,"Variável","","2026-04-13",150600],["p","2026-03-31","COPASA","Conta de Água",6382,"Variável","","2026-04-14",6382],["p","2026-03-31","Mercado Livre","Cartão de Crédito",95294,"Variável","","2026-04-14",95294],["p","2026-05-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-05-05",5000],["p","2026-04-30","COPASA","Conta de Água",6195,"Variável","","2026-05-07",6195],["p","2026-05-05","Adriano","Chá",40000,"Fixa","","2026-05-07",40000],["p","2026-05-05","Fernando","Cartas de Magic",11000,"Variável","","2026-05-07",11000],["p","2026-05-05","Maikon","Capacete",4500,"Variável","","2026-05-08",4500],["p","2026-05-06","CEMIG","Conta de Energia",14292,"Variável","","2026-05-08",14292],["p","2026-05-10","Anderson","Moto",100000,"Fixa","","2026-05-08",100000],["p","2026-05-10","Natália","Pensão Gabriel",100000,"Fixa","","2026-05-08",100000],["p","2026-05-10","Natália","Prime e Impressora",11300,"Fixa","","2026-05-08",11300],["p","2026-05-14","Mercado Livre","Emprestimo Mercado Pago",23000,"Variável","","2026-05-16",23000],["p","2026-05-20","Mercado Livre","Cartão de Crédito",191449,"Variável","","2026-05-20",191449],["p","2026-05-31","COPASA","Conta de Água",8575,"Variável","","2026-06-01",8575],["p","2026-06-06","CEMIG","Conta de Energia",18772,"Variável","","2026-06-08",18772],["p","2026-06-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-06-10",5000],["p","2026-06-10","Natália","Pensão Gabriel",100000,"Fixa","","2026-06-10",100000],["p","2026-06-10","Natália","Prime e Impressora",11300,"Fixa","","2026-06-10",11300],["p","2026-06-10","Anderson","Moto",100000,"Fixa","","2026-06-11",100000],["p","2026-06-16","Mercado Livre","Emprestimo Mercado Pago",23000,"Variável","","2026-06-15",23000],["p","2026-07-16","Mercado Livre","Emprestimo Mercado Pago",22000,"Variável","","2026-06-15",22000],["p","2026-08-16","Mercado Livre","Emprestimo Mercado Pago",21000,"Variável","","2026-06-15",21000],["p","2026-06-05","Maikon","Capacete",4500,"Variável","","2026-07-07",4500],["p","2026-06-29","COPASA","Conta de Água",6641,"Variável","","2026-07-07",6641],["p","2026-07-06","CEMIG","Conta de Energia",17730,"Variável","","2026-07-07",17730],["p","2026-07-10","Natália","Pensão Gabriel",100000,"Fixa","","2026-07-07",100000],["p","2026-07-10","Anderson","Moto",100000,"Fixa","","2026-07-08",100000],["p","2026-07-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-07-09",5000],["p","2026-07-10","Natália","Prime e Impressora",11300,"Fixa","","2026-07-10",11300],["p","2026-06-20","Mercado Livre","Cartão de Crédito",117340,"Variável","","2026-07-20",117340],["p","2026-08-10","Natália","Despesas com Gabriel",85000,"Fixa","","2026-08-07",85000],["p","2026-08-10","Natália","Prime e Impressora",11395,"Fixa","","2026-08-07",11395],["p","2026-07-31","COPASA","Conta de Água",7612,"Variável","","2026-08-10",7612],["p","2026-08-05","Adriano","Energia compartilhada",5000,"Fixa","Pago descontando 50 reais dos 100 que ele pegou emprestado comigo em Cordislandia.","2026-08-10",5000],["p","2026-08-06","CEMIG","Conta de Energia",19027,"Variável","","2026-08-10",19027],["p","2026-08-10","Anderson","Moto",100000,"Fixa","","2026-08-10",100000],["p","2026-08-10","Fernando","Coleção de Magic",25000,"Variável","","2026-08-10",25000],["p","2026-08-10","Adriano Cha","Chá",38000,"Variável","","2026-08-10",38000],["p","2026-08-10","Selnice","Supermercado",100800,"Fixa","","2026-08-10",100800],["p","2026-08-20","Mercado Livre","Cartão de Crédito",173259,"Variável","","2026-08-20",173259],["p","2026-08-31","COPASA","Conta de Água",5777,"Variável","","2026-09-02",5777],["p","2026-09-05","Adriano","Energia compartilhada",5000,"Fixa","Pago descontando 50 reais dos 100 que ele pegou emprestado comigo em Cordislandia.","2026-09-02",5000],["p","2026-09-03","Anderson","Moto",100000,"Fixa","","2026-09-03",100000],["p","2026-09-10","Natália","Pensão Gabriel",85000,"Fixa","","2026-09-06",85000],["p","2026-09-10","Natália","Despesas com Gabriel",11667,"Variável","","2026-09-06",11667],["p","2026-09-10","Natália","Prime e Impressora",11395,"Fixa","","2026-09-06",11395],["p","2026-09-06","CEMIG","Conta de Energia",18983,"Variável","","2026-09-09",18983],["p","2026-09-10","Selnice","Supermercado",101600,"Variável","","2026-09-09",101600],["p","2026-09-10","Adriano","Trigo Minas",20500,"Variável","","2026-09-09",20500],["p","2026-09-17","Vivo","Plano de Celular",3068,"Fixa","","2026-09-15",3068],["p","2026-09-25","Webert","Cha",31000,"Variável","","2026-09-18",31000],["p","2026-09-25","Dominguito","Torneio Magic",7900,"Variável","","2026-09-19",7900],["p","2026-09-20","Mercado Livre","Cartão de Crédito",109547,"Variável","","2026-09-20",109547],["p","2026-09-23","Mercado Livre","Plano Meli",990,"Fixa","","2026-09-23",990],["p","2026-09-22","COPASA","Conta de Água",6312,"Variável","","2026-10-06",6312],["p","2026-10-06","CEMIG","Conta de Energia",18411,"Variável","","2026-10-06",18411],["p","2026-10-10","Natália","Despesas com Gabriel",3643,"Variável","","2026-10-06",3643],["p","2026-10-10","Natália","Prime",1390,"Fixa","","2026-10-06",1390],["p","2026-10-10","Natália","Pensão Gabriel",85000,"Fixa","","2026-10-06",85000],["p","2026-10-10","Selnice","Supermercado",95000,"Variável","","2026-10-06",95000],["p","2026-10-10","Aguinaldo","Emprestimo",60000,"Fixa","","2026-10-06",60000],["p","2026-10-05","Adriano","Energia compartilhada",5000,"Fixa","","2026-10-08",5000],["p","2026-10-22","COPASA","Conta de Água",6790,"Variável","","",0],["p","2026-10-20","Mercado Livre","Cartão de Crédito",116530,"Variável","","",0],["p","2026-10-25","Mercado Livre","Plano Meli",990,"Fixa","","",0],["p","2026-10-16","Mercado Livre","Linha de Crédito",17468,"Variável","","",0],["p","2026-10-10","Silvana","Bar da Silvana",0,"Variável","","",0],["p","2026-11-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2026-11-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2026-11-10","Natália","Despesas com Gabriel",0,"Variável","","",0],["p","2026-11-10","Natália","Prime e Impressora",11395,"Fixa","","",0],["p","2026-11-10","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2026-11-10","Natália","Pensão Gabriel",50000,"Fixa","","",0],["p","2026-11-17","Vivo","Plano de Celular",3071,"Fixa","","",0],["p","2026-11-20","Mercado Livre","Cartão de Crédito",27119,"Variável","","",0],["p","2026-11-25","Mercado Livre","Plano Meli",990,"Fixa","","",0],["p","2026-11-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2026-12-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2026-12-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2026-12-10","Natália","Despesas com Gabriel",0,"Variável","","",0],["p","2026-12-10","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2026-12-10","Natália","Pensão Gabriel",50000,"Fixa","","",0],["p","2026-12-17","Vivo","Plano de Celular",3071,"Fixa","","",0],["p","2026-12-20","Mercado Livre","Cartão de Crédito",14317,"Variável","","",0],["p","2026-12-25","Mercado Livre","Plano Meli",990,"Fixa","","",0],["p","2026-12-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-01-20","Mercado Livre","Cartão de Crédito",11775,"Variável","","",0],["p","2027-02-20","Mercado Livre","Cartão de Crédito",11775,"Variável","","",0],["p","2027-03-20","Mercado Livre","Cartão de Crédito",8425,"Variável","","",0],["p","2027-04-20","Mercado Livre","Cartão de Crédito",5379,"Variável","","",0],["p","2027-05-20","Mercado Livre","Cartão de Crédito",4226,"Variável","","",0],["p","2027-01-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-02-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-03-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-04-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-05-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-06-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-07-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-08-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-09-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-10-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-11-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-12-05","Adriano","Energia compartilhada",5000,"Fixa","","",0],["p","2027-01-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-02-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-03-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-04-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-05-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-06-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-07-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-08-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-09-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-10-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-11-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-12-05","Natália","Pensão Gabriel",85000,"Fixa","","",0],["p","2027-01-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-02-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-03-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-04-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-05-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-06-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-07-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-08-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-09-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-10-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-11-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-12-06","CEMIG","Conta de Energia",18500,"Variável","média futura","",0],["p","2027-01-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-02-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-03-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-04-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-05-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-06-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-07-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-08-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-09-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-10-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-11-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2027-12-22","COPASA","Conta de Água",6875,"Variável","média futura","",0],["p","2026-10-17","Vivo","Plano de Celular",3071,"Fixa","","",0],["p","2026-11-10","Aguinaldo","Emprestimo",60000,"Fixa","","",0],["p","2026-12-10","Aguinaldo","Emprestimo",50000,"Fixa","","",0],["p","2027-01-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-02-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-03-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-04-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-05-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-06-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-07-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-08-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-09-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-10-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-11-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2027-12-05","Selnice","Supermercado",112800,"Variável","média futura","",0],["p","2026-10-06","Mãe","Presente",20000,"Variável","","2026-10-06",20000],["p","2026-10-06","Webert","Chá",35000,"Variável","","2026-10-06",35000],["p","2026-10-09","Paulo Fernando","Celular novo",47000,"Variável","","2026-10-09",47000],["r","2026-09-03","Filipe","Venda da Moto, Entrada",100000,"Fixa","","2026-09-03",100000],["r","2026-09-10","Governo","Seguro Desemprego",162100,"Fixa","","2026-09-10",162100],["r","2026-10-10","Filipe","Venda da Moto, 1/5",140000,"Fixa","","2026-10-05",140000],["r","2026-10-10","Aguinaldo","Prestação de Serviços",400000,"Fixa","","2026-10-06",400000],["r","2026-10-20","Adriano","Emprestimo",3500,"Variável","","",0],["r","2026-10-20","Adriano","Conserto do carro 1/3",22634,"Variável","","",0],["r","2026-11-10","Filipe","Venda da Moto, 2/5",140000,"Fixa","","",0],["r","2026-11-10","Aguinaldo","Prestação de Serviços",400000,"Fixa","","",0],["r","2026-11-20","Adriano","Conserto do carro 2/3",22634,"Variável","","",0],["r","2026-12-10","Filipe","Venda da Moto, 3/5",140000,"Fixa","","",0],["r","2026-12-10","Aguinaldo","Prestação de Serviços",400000,"Fixa","","",0],["r","2026-12-20","Adriano","Conserto do carro 3/3",22634,"Variável","","",0],["r","2027-01-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-01-10","Filipe","Venda da Moto, 4/5",140000,"Fixa","","",0],["r","2027-02-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-02-10","Filipe","Venda da Moto, 5/5",140000,"Fixa","","",0],["r","2027-03-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-04-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-05-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-06-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-07-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-08-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-09-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-10-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-11-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0],["r","2027-12-05","Aguinaldo","Prestação de Serviços",430000,"Fixa","","",0]];
 
-  let tabAtual = 'painel';
-
-  function salvar() {
-    localStorage.setItem('contas_simples', JSON.stringify(dados));
-  }
-
-  function mudarTab(t) {
-    tabAtual = t;
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById('btn-' + t).classList.add('active');
-    render();
-  }
-
-  function formatarMoeda(cents) {
-    return 'R$ ' + (cents / 100).toFixed(2).replace('.', ',');
-  }
-
-  function render() {
-    const el = document.getElementById('conteudo');
-    if (tabAtual === 'painel') {
-      let totalPagar = dados.filter(i => i.tipo === 'p' && i.status === 'pendente').reduce((acc, i) => acc + i.val, 0);
-      let totalReceber = dados.filter(i => i.tipo === 'r' && i.status === 'pendente').reduce((acc, i) => acc + i.val, 0);
-      
-      el.innerHTML = `
-        <div class="card">
-          <div class="row"><b>Total a Pagar:</b> <span style="color:var(--danger)">${formatarMoeda(totalPagar)}</span></div>
-          <div class="row"><b>Total a Receber:</b> <span style="color:var(--success)">${formatarMoeda(totalReceber)}</span></div>
-        </div>
-        <div class="card">
-          <h3>Próximos Vencimentos</h3>
-          ${gerarTabela(dados.slice(0, 5))}
-        </div>`;
-    } else if (tabAtual === 'pagar' || tabAtual === 'receber') {
-      let tipoFiltro = tabAtual === 'pagar' ? 'p' : 'r';
-      let lista = dados.filter(i => i.tipo === tipoFiltro);
-      el.innerHTML = `<div class="card"><h3>${tabAtual === 'pagar' ? 'Contas a Pagar' : 'Contas a Receber'}</h3>${gerarTabela(lista)}</div>`;
-    } else if (tabAtual === 'novo') {
-      el.innerHTML = `
-        <div class="card">
-          <h3>Novo Lançamento</h3>
-          <label>Tipo:</label>
-          <select id="f-tipo"><option value="p">A Pagar</option><option value="r">A Receber</option></select>
-          <label>Vencimento:</label>
-          <input type="date" id="f-venc" value="${new Date().toISOString().split('T')[0]}">
-          <label>Favorecido / Pessoa:</label>
-          <input type="text" id="f-pessoa" placeholder="Ex: CEMIG, Supermercado...">
-          <label>Descrição:</label>
-          <input type="text" id="f-desc" placeholder="Ex: Conta de Luz">
-          <label>Valor (R$):</label>
-          <input type="number" step="0.01" id="f-val" placeholder="0,00">
-          <button class="btn-main" onclick="adicionarConta()">Guardar Conta</button>
-        </div>`;
-    }
-  }
-
-  function gerarTabela(lista) {
-    if (lista.length === 0) return '<p style="color:#777; font-size:13px;">Sem registos encontrados.</p>';
-    let html = `<table><tr><th>Data</th><th>Descrição</th><th class="text-right">Valor</th><th class="text-right">Ação</th></tr>`;
-    lista.forEach(i => {
-      let dataFmt = i.venc.split('-').reverse().join('/');
-      html += `<tr>
-        <td>${dataFmt}</td>
-        <td><b>${i.pessoa}</b><br><small>${i.desc}</small></td>
-        <td class="text-right">${formatarMoeda(i.val)}</td>
-        <td class="text-right actions">
-          ${i.status === 'pendente' ? `<button onclick="baixar(${i.id})" style="background:#e8f5e9; color:#2e7d32;">Baixar</button>` : ''}
-          <button onclick="apagar(${i.id})" style="background:#ffebee; color:#c62828;">X</button>
-        </td>
-      </tr>`;
-    });
-    html += `</table>`;
-    return html;
-  }
-
-  function adicionarConta() {
-    let tipo = document.getElementById('f-tipo').value;
-    let venc = document.getElementById('f-venc').value;
-    let pessoa = document.getElementById('f-pessoa').value.trim();
-    let desc = document.getElementById('f-desc').value.trim();
-    let valStr = document.getElementById('f-val').value;
-
-    if (!pessoa || !valStr) {
-      alert('Por favor, preencha a pessoa e o valor.');
-      return;
-    }
-
-    let val = Math.round(parseFloat(valStr.replace(',', '.')) * 100);
-
-    dados.push({ id: Date.now(), tipo, venc, pessoa, desc: desc || pessoa, val, status: 'pendente' });
-    salvar();
-    mudarTab('painel');
-  }
-
-  function baixar(id) {
-    let item = dados.find(i => i.id === id);
-    if (item) {
-      item.status = 'pago';
-      salvar();
-      render();
-    }
-  }
-
-  function apagar(id) {
-    if (confirm('Deseja excluir este lançamento?')) {
-      dados = dados.filter(i => i.id !== id);
-      salvar();
-      render();
-    }
-  }
-
-  render();
+const KEY='contas2026.v1';
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const BRL=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+const money=c=>BRL.format((c||0)/100),p2=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()),today=()=>iso(new Date());
+const fmtD=s=>s?s.split('-').reverse().join('/'):'—',ym=s=>s.slice(0,7),lastDay=(y,m)=>new Date(y,m,0).getDate();
+const MES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36);
+const fm=c=>c?(c/100).toFixed(2).replace('.',','):'';
+const pm=s=>{s=String(s??'').replace(/R\$|\s/g,'');if(s==='')return NaN;if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');const n=Number(s);return isNaN(n)?NaN:Math.round(n*100)};
+const addMonths=(s,n)=>{let[y,m,d]=s.split('-').map(Number);m+=n;y+=Math.floor((m-1)/12);m=((m-1)%12+12)%12+1;return y+'-'+p2(m)+'-'+p2(Math.min(d,lastDay(y,m)))};
+const short=c=>{const r=c/100;return r>=1000?(r/1000).toFixed(1).replace('.0','')+' mil':Math.round(r)};
+const seed=()=>SEED.map(r=>({id:uid(),t:r[0],venc:r[1],pessoa:r[2],desc:r[3],v:r[4],classe:r[5],obs:r[6]||'',dp:r[7]||'',vp:r[8]||0}));
+const Store={d:{schema:1,itens:[]},
+ init(){let r=null;try{r=localStorage.getItem(KEY)}catch(e){}if(r){try{this.d=JSON.parse(r)}catch(e){r=null}}
+  if(!r||!this.d||!Array.isArray(this.d.itens)){this.d={schema:1,itens:seed()};this.save()}},
+ save(){try{localStorage.setItem(KEY,JSON.stringify(this.d))}catch(e){toast('Erro ao salvar no navegador.')}},
+ get all(){return this.d.itens}};
+const info=i=>{const vp=i.vp||0,saldo=Math.max(i.v-vp,0),atr=saldo>0&&i.venc<today();
+ return{vp,saldo,atr,st:i.v>0&&saldo===0?'Pago':vp>0?'Parcial':atr?'Em atraso':'Em aberto'}};
+function resumo(L){let tot=0,pg=0,ab=0,at=0;for(const i of L){const k=info(i);tot+=i.v;pg+=k.vp;k.atr?at+=k.saldo:ab+=k.saldo}return{tot,pg,ab,at}}
+let P,T={q:'',st:''},FAV='p',SUG=[],PASTE=[];
+const setMes=k=>{const[y,m]=k.split('-').map(Number);P={ini:k+'-01',fim:k+'-'+p2(lastDay(y,m))}};
+const inP=i=>i.venc>=P.ini&&i.venc<=P.fim;
+function preset(p){const cur=ym(today());
+ if(p==='mes')setMes(cur);else if(p==='ant')setMes(ym(addMonths(cur+'-01',-1)));else if(p==='prox')setMes(ym(addMonths(cur+'-01',1)));
+ else if(p==='a26')P={ini:'2026-01-01',fim:'2026-12-31'};else if(p==='a27')P={ini:'2027-01-01',fim:'2027-12-31'};
+ else{const v=Store.all.map(i=>i.venc).sort();P={ini:v[0]||today(),fim:v[v.length-1]||today()}}}
+let tt;function toast(m,undo){const t=$('#toast');t.innerHTML=esc(m)+(undo?' <button id="und">Desfazer</button>':'');t.classList.add('on');if(undo)$('#und').onclick=()=>{undo();t.classList.remove('on')};clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),5000)}
+const perBar=()=>`<label>De <input type="date" id="pi" value="${P.ini}"></label><label>até <input type="date" id="pf" value="${P.fim}"></label>`+
+ [['mes','Mês atual'],['ant','Mês ant.'],['prox','Próx. mês'],['a26','2026'],['a27','2027'],['tudo','Tudo']].map(([k,l])=>`<button data-pre="${k}">${l}</button>`).join('');
+function monthsRange(){const ks=Store.all.map(i=>ym(i.venc)).sort();if(!ks.length)return[];let[y,m]=ks[0].split('-').map(Number);const out=[],end=ks[ks.length-1];for(;;){const k=y+'-'+p2(m);out.push(k);if(k>=end)break;if(++m>12){m=1;y++}}return out}
+function chartMeses(modo){
+ const ms=monthsRange();if(!ms.length)return'<p class="vazio">Sem lançamentos ainda.</p>';
+ const dat=ms.map(k=>{const o={k,a:0,b:0};for(const i of Store.all){if(ym(i.venc)!==k)continue;if(modo==='fluxo')i.t==='r'?o.a+=i.v:o.b+=i.v;else if(i.t==='p')i.classe==='Fixa'?o.a+=i.v:o.b+=i.v}return o});
+ const W=760,H=230,L=40,B=24,T0=8,ih=H-B-T0,bw=(W-L-4)/dat.length,mx=Math.max(1,...dat.map(d=>modo==='fluxo'?Math.max(d.a,d.b):d.a+d.b)),y=v=>T0+ih-v/mx*ih;
+ const nm=modo==='fluxo'?['A receber','A pagar']:['Fixas','Variáveis'],c=modo==='fluxo'?['var(--pos)','var(--neg)']:['var(--ac)','var(--warn)'];
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+ for(let g=0;g<=4;g++){const v=mx*g/4;s+=`<line x1="${L}" x2="${W}" y1="${y(v)}" y2="${y(v)}" class="gl"/><text x="${L-4}" y="${y(v)+3}" class="ax" text-anchor="end">${short(v)}</text>`}
+ dat.forEach((d,j)=>{const x=L+j*bw,sel=d.k>=ym(P.ini)&&d.k<=ym(P.fim),[yy,mm]=d.k.split('-');
+  const tip=`${MES[mm-1]}/${yy} — ${nm[0]}: ${money(d.a)} · ${nm[1]}: ${money(d.b)}`;
+  s+=`<g class="mg" data-m="${d.k}" data-tip="${esc(tip)}"><rect x="${x}" y="${T0}" width="${bw}" height="${ih}" class="${sel?'sb':'hit'}"/>`;
+  if(modo==='fluxo'){const w=bw*.36;s+=`<rect x="${x+bw*.1}" y="${y(d.a)}" width="${w}" height="${T0+ih-y(d.a)}" fill="${c[0]}"/><rect x="${x+bw*.54}" y="${y(d.b)}" width="${w}" height="${T0+ih-y(d.b)}" fill="${c[1]}"/>`}
+  else{const ha=d.a/mx*ih,hb=d.b/mx*ih;s+=`<rect x="${x+bw*.2}" y="${T0+ih-ha}" width="${bw*.6}" height="${ha}" fill="${c[0]}"/><rect x="${x+bw*.2}" y="${T0+ih-ha-hb}" width="${bw*.6}" height="${hb}" fill="${c[1]}"/>`}
+  s+=`<text x="${x+bw/2}" y="${H-8}" class="ax" text-anchor="middle">${MES[mm-1]}</text></g>`});
+ return s+`</svg><p class="leg"><i style="background:${c[0]}"></i>${nm[0]}<i style="background:${c[1]}"></i>${nm[1]}</p>`}
+function vFav(L){const m=new Map();for(const i of L.filter(i=>i.t===FAV))m.set(i.pessoa,(m.get(i.pessoa)||0)+i.v);
+ const top=[...m].sort((a,b)=>b[1]-a[1]).slice(0,6);if(!top.length)return'<p class="vazio">Nada neste período.</p>';const mx=top[0][1]||1;
+ return`<div class="seg"><button data-fav="p" class="${FAV==='p'?'on':''}">A pagar</button><button data-fav="r" class="${FAV==='r'?'on':''}">A receber</button></div>`+
+ top.map(([n,v])=>`<div class="fv ${FAV==='r'?'r':''}"><span>${esc(n)}</span><i><u style="width:${v/mx*100}%"></u></i><b>${money(v)}</b></div>`).join('')}
+function vDonut(L){const pl=L.filter(i=>i.t==='p'),f=pl.filter(i=>i.classe==='Fixa').reduce((a,i)=>a+i.v,0),t=pl.reduce((a,i)=>a+i.v,0),v=t-f;
+ if(!t)return'<p class="vazio">Nada a pagar.</p>';const C=2*Math.PI*40,df=f/t*C;
+ return`<div class="donut"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--warn)" stroke-width="16"/><circle cx="50" cy="50" r="40" fill="none" stroke="var(--ac)" stroke-width="16" stroke-dasharray="${df} ${C-df}" transform="rotate(-90 50 50)"/><text x="50" y="53" text-anchor="middle" class="dt">${money(t)}</text></svg>
+ <div class="lg"><div><i style="color:var(--ac)">■</i> Fixa: ${money(f)} (${Math.round(f/t*100)}%)</div><div><i style="color:var(--warn)">■</i> Variável: ${money(v)} (${Math.round(v/t*100)}%)</div></div></div>`}
+function tabela(L,o={}){
+ if(!L.length)return'<p class="vazio">Nenhum lançamento encontrado.</p>';
+ let a=0,b=0,c=0;
+ const rows=L.map(i=>{const k=info(i);a+=i.v;b+=k.vp;c+=k.saldo;const lb=k.st==='Pago'?(i.t==='r'?'Recebido':'Pago'):k.st,tc=k.st==='Pago'?'ok':k.atr?'bad':'wn';
+  return`<tr data-id="${i.id}"${k.atr?' class="atr"':''}>${o.sel?'<td><input type="checkbox" class="ck"></td>':''}<td>${fmtD(i.venc)}</td>${o.tipo?`<td>${i.t==='r'?'Rec':'Pag'}</td>`:''}<td>${esc(i.pessoa)}</td><td>${esc(i.desc)}</td><td class="n">${money(i.v)}</td><td><span class="tag ${tc}">${lb}</span></td><td class="ac">${k.saldo>0?`<button data-a="baixa">${i.t==='r'?'Receber':'Pagar'}</button>`:''}<button data-a="edit">Editar</button><button data-a="del">X</button></td></tr>`}).join('');
+ return`<div class="tw"><table><thead><tr>${o.sel?'<th><input type="checkbox" id="ckall"></th>':''}<th>Venc</th>${o.tipo?'<th>Tipo</th>':''}<th>Favorecido</th><th>Descrição</th><th class="n">Valor</th><th>Status</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`}
+const kpi=(l,v,cl='',sb='')=>`<div class="kpi ${cl}"><span>${l}</span><b>${money(v)}</b>${sb?`<small>${sb}</small>`:''}</div>`;
+function vPainel(){
+ const L=Store.all.filter(inP),R=resumo(L.filter(i=>i.t==='r')),D=resumo(L.filter(i=>i.t==='p'));
+ const prev=R.tot-D.tot,real=R.pg-D.pg,falta=R.ab+R.at-D.ab-D.at;
+ const aten=Store.all.filter(i=>i.v>0&&info(i).saldo>0&&(info(i).atr||i.venc>=today())).sort((a,b)=>a.venc.localeCompare(b.venc)).slice(0,5);
+ return`<div class="k3">${kpi('Realizado (Rec − Pag)',real,(real>=0?'pos':'neg')+' big')}${kpi('Ainda a movimentar',falta,(falta>=0?'pos':'neg')+' big')}${kpi('Saldo previsto',prev,(prev>=0?'pos':'neg')+' big')}</div>
+ <div class="grp"><h2>Crédito / Débito do Período</h2><div class="k4">${kpi('A Receber',R.ab,'wn')}${kpi('Recebido',R.pg,'pos')}${kpi('A Pagar',D.ab,'wn')}${kpi('Pago',D.pg,'pos')}</div></div>
+ <div class="grid2"><section class="card"><h2>Fluxo mensal</h2>${chartMeses('fluxo')}</section><section class="card"><h2>Fixas vs Variáveis</h2>${chartMeses('desp')}</section></div>
+ <div class="grid2"><section class="card"><h2>Maiores favorecidos</h2>${vFav(L)}</section><section class="card"><h2>Proporção despesas</h2>${vDonut(L)}</section></div>
+ <section class="card"><h2>Próximos vencimentos / Atrasos</h2>${tabela(aten,{tipo:1})}</section>`}
+function listaHTML(t){const q=T.q.toLowerCase();
+ const L=Store.all.filter(i=>i.t===t&&inP(i)).filter(i=>{const k=info(i);return(!q||(i.pessoa+' '+i.desc+' '+i.obs).toLowerCase().includes(q))&&(!T.st||(T.st==='pago'?k.st==='Pago':T.st==='atraso'?k.atr:k.saldo>0))}).sort((a,b)=>a.venc.localeCompare(b.venc));
+ return tabela(L,{sel:1})}
+const vLista=t=>`<section class="card"><div class="bar"><h2>${t==='p'?'Contas a pagar':'Contas a receber'}</h2><input id="q" type="search" placeholder="Buscar..." value="${esc(T.q)}"><select id="stf">${[['','Todos'],['aberto','Em aberto'],['atraso','Atraso'],['pago','Quitados']].map(([v,l])=>`<option value="${v}"${T.st===v?' selected':''}>${l}</option>`).join('')}</select><span class="sp"></span><button data-a="lote">Baixar sel.</button>${t==='p'?'<button data-a="proj">Projetar</button>':''}<button class="pri" data-a="novo">+ Lançar</button></div><div id="lista" data-t="${t}">${listaHTML(t)}</div></section>`;
+const vDados=()=>`<section class="card"><h2>Backup e Dados</h2><p class="mut">Faça backup regular dos seus dados para não os perder ao limpar o histórico do navegador.</p><div class="bar"><button class="pri" data-a="expjson">Baixar Backup (.json)</button><button data-a="expcsv">Exportar Excel (.csv)</button><label class="inl">Restaurar <input type="file" id="fjson" accept=".json"></label></div></section>`;
+function render(){const r=location.hash.replace('#/','')||'painel';
+ $$('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#/'+r));
+ $('#per').innerHTML=r==='dados'?'':perBar();
+ $('#app').innerHTML=r==='pagar'?vLista('p'):r==='receber'?vLista('r'):r==='dados'?vDados():vPainel()}
+function baixa(ids,d){if(!ids.length){toast('Selecione itens.');return}let n=0;for(const i of Store.all)if(ids.includes(i.id)&&info(i).saldo>0){i.dp=d||today();i.vp=i.v;n++}Store.save();render();toast(n+' baixa(s) efetuada(s).')}
+function del(id){const a=Store.all,ix=a.findIndex(i=>i.id===id);if(ix<0)return;const[it]=a.splice(ix,1);Store.save();render();toast('Removido',()=>{(a.splice(ix,0,it));Store.save();render()})}
+function openForm(id,pre){const it=id?Store.all.find(i=>i.id===id):null,d=it||pre||{},t=d.t||'p',dlg=$('#dlg');
+ dlg.innerHTML=`<form id="ff"><h2>${it?'Editar':'Novo'} Lançamento</h2>
+ <div class="seg"><label><input type="radio" name="t" value="p"${t==='p'?' checked':''}> Pagar</label><label><input type="radio" name="t" value="r"${t==='r'?' checked':''}> Receber</label></div>
+ <div class="fg"><label>Favorecido<input name="pessoa" value="${esc(d.pessoa)}"></label><label>Descrição<input name="desc" value="${esc(d.desc)}"></label>
+ <label>Vencimento<input type="date" name="venc" value="${d.venc||today()}"></label><label>Valor (R$)<input name="v" inputmode="decimal" value="${it?fm(it.v):''}"></label>
+ <label>Classe<select name="classe"><option${d.classe==='Fixa'?' selected':''}>Fixa</option><option${d.classe!=='Fixa'?' selected':''}>Variável</option></select></label>
+ ${it?'':'<label>Repetição<select name="rep"><option value="u">Único</option><option value="m">Mensal</option><option value="p">Parcelado</option></select></label><label>Meses/Parcelas<input type="number" name="qtd" value="12"></label>'}</div>
+ <div class="bar"><button type="button" data-a="fechar">Cancelar</button><span class="sp"></span><button class="pri">Salvar</button></div></form>`;
+ const f=$('#ff');f.onsubmit=e=>{e.preventDefault();
+ const tv=f.t.value,venc=f.venc.value,pessoa=f.pessoa.value.trim(),desc=f.desc.value.trim(),v=pm(f.v.value);
+ if(!venc||!pessoa||isNaN(v))return alert('Preencha os campos obrigatórios.');
+ if(it){Object.assign(it,{t:tv,venc,pessoa,desc,v,classe:f.classe.value});toast('Atualizado.')}
+ else{const rep=f.rep.value,n=rep==='u'?1:Math.max(1,+f.qtd.value||1);
+  for(let k=0;k<n;k++)Store.all.push({id:uid(),t:tv,venc:addMonths(venc,k),pessoa,desc:rep==='p'?`${desc} ${k+1}/${n}`:desc,v,classe:f.classe.value,obs:'',dp:'',vp:0});toast(n+' criado(s).')}
+ Store.save();dlg.close();render()};dlg.showModal()}
+document.addEventListener('click',e=>{const g=s=>e.target.closest(s),b=g('[data-a]');
+ if(b){const a=b.dataset.a,tr=b.closest('tr'),id=tr&&tr.dataset.id;
+  if(a==='novo')openForm(null,{t:location.hash.includes('receber')?'r':'p'});else if(a==='edit')openForm(id);else if(a==='baixa')baixa([id]);else if(a==='del')del(id);
+  else if(a==='lote')baixa($$('.ck:checked').map(c=>c.closest('tr').dataset.id));else if(a==='fechar')$('#dlg').close(); else if(a==='expjson')dl('backup.json',JSON.stringify(Store.d),'application/json');else if(a==='expcsv')expCsv();return} let x;if(x=g('[data-m]')){setMes(x.dataset.m);render()}else if(x=g('[data-pre]')){preset(x.dataset.pre);render()}else if(x=g('[data-fav]')){FAV=x.dataset.fav;render()} else if(e.target.id==='ckall')$$('.ck').forEach(c=>c.checked=e.target.checked)});
+document.addEventListener('input',e=>{if(e.target.id==='q'){T.q=e.target.value;$('#lista').innerHTML=listaHTML($('#lista').dataset.t)}});
+document.addEventListener('change',e=>{if(e.target.id==='stf'){T.st=e.target.value;$('#lista').innerHTML=listaHTML($('#lista').dataset.t)}
+ else if(e.target.id==='pi'||e.target.id==='pf'){const a=$('#pi').value,b=$('#pf').value;if(a&&b&&a<=b){P={ini:a,fim:b};render()}}
+ else if(e.target.id==='fjson'){const fl=e.target.files[0];if(!fl)return;const r=new FileReader();r.onload=()=>{try{Store.d=JSON.parse(r.result);Store.save();render();toast('Restaurado.')}catch(x){toast('Arquivo inválido.')}};r.readAsText(fl)}});
+window.addEventListener('hashchange',render);
+Store.init();setMes(ym(today()));if(!Store.all.some(inP))preset('tudo');render();
 </script>
 </body>
 </html>
